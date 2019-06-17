@@ -23,7 +23,6 @@ class Dispatch implements DispatchInterface
         }
         $params = escapeshellarg($params);
         $command = "php ../bin/magento newbury:async:runner $class $method $params &";
-        $pwd = exec('pwd');
-        $response = exec($command);
+        exec($command);
     }
 }
