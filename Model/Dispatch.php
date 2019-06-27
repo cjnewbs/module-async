@@ -13,6 +13,12 @@ use Newbury\Async\Api\DispatchInterface;
  */
 class Dispatch implements DispatchInterface
 {
+    /**
+     * @param $class
+     * @param $method
+     * @param null $params
+     * @return void
+     */
     public function dispatch($class, $method, $params = null)
     {
         if (!class_exists($class)) {
