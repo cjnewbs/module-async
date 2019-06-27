@@ -1,0 +1,26 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+
+jobs:
+
+  build:
+    docker:
+      - image: markwallman/php72-mage:latest
+
+    working_directory: /sources # directory where steps will run
+
+    steps:
+      - checkout
+
+      - run:
+          name: "Install Magento2 code standards (with PHPCS)."
+          command: cd / && composer create-project magento/magento-coding-standard --remove-vcs --stability=dev magento-coding-standard
+      - run:
+          name: "Run PHP code sniffer (Magento2 standards)."
+          command: |
+            mkdir -p artifacts/phpcs
+            /magento-coding-standard/vendor/bin/phpcs --standard=Magento2 --report=junit --report-junit=/sources/artifacts/phpcs/phpcs.xml /sources/
+      - store_test_results:
+          path: /sources/artifacts/phpcs
+      - store_artifacts:
+          path: /sources/artifacts
